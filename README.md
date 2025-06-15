@@ -46,10 +46,6 @@ The tests are designed to validate the main functionalities of the Petstore API,
 - Hamcrest
 - Gson
 
-## Author
-
-Ana Carollyne Guimarães de Souza
-
 ## License
 
 This project is for educational
