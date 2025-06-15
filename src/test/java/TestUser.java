@@ -59,7 +59,7 @@ public class TestUser {
             .statusCode(200)
             .body("code", is(200))
             .body("type", is("unknown"))
-            .body("message", is(userId))
+            .body("message", is(String.valueOf(userId)))
         ;
     }
 }
