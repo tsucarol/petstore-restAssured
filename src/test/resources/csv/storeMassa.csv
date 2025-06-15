@@ -1,0 +1,4 @@
+orderId,petId,orderQuantity,orderShipDate,orderStatus,orderComplete
+001,502670903,2,2025-06-15,placed,true
+002,502670904,5,2025-06-02,placed,false
+003,502670905,1,2025-01-30,placed,true
