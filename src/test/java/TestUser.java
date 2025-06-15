@@ -24,7 +24,8 @@ public class TestUser {
     static String uriUser = "https://petstore.swagger.io/v2/user";
     static String token;
 
-    /* Informações esperadas do user */
+    String username = "dummie";
+    String password = "Dummie123!";
 
     /* Função para leitura do json */
     public static String lerArquivoJson(String arquivoJson) throws IOException{
@@ -76,8 +77,6 @@ public class TestUser {
 
     @Test @Order(2)
     public void testLoginUser() {
-        String username = "tsucarol";
-        String password = "Teste123!";
         String resultadoEsperado = "logged in user session:";
 
         Response resposta = (Response) 
@@ -102,8 +101,7 @@ public class TestUser {
 
     @Test @Order(3)
     public void testUpdateUser() throws IOException {
-        String username = "dummie";
-        int userId = 4;
+        int userId = 3;
         String jsonBody = lerArquivoJson("src/test/resources/json/updateUser3.json");
 
         given()
@@ -122,5 +120,19 @@ public class TestUser {
     }
 
     @Test @Order(4)
+    public void testDeleteUser() throws IOException {
+        given()
+            .contentType(ct)
+            .log().all()
+        .when()
+            .delete(uriUser + "/" + username)
+        .then()
+            .log().all()
+            .statusCode(200)
+            .body("code", is(200))
+            .body("type", is("unknown"))
+            .body("message", is(username))
+        ;
+    }
     
 }
