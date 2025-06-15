@@ -10,6 +10,10 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasLength;
 import static org.hamcrest.Matchers.is;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import com.google.gson.Gson;
 
 import io.restassured.response.Response;
@@ -19,12 +23,14 @@ public class TestUser {
     static String ct = "application/json";
     static String uriUser = "https://petstore.swagger.io/v2/user";
     static String token;
-    /* TESTES USER
-     * Post
-     * Get
-     * Put
-     * Delete
-     */
+
+    /* Informações esperadas do user */
+
+    /* Função para leitura do json */
+    public static String lerArquivoJson(String arquivoJson) throws IOException{
+        return new String(Files.readAllBytes(Paths.get(arquivoJson)));
+    }
+
 
     @ParameterizedTest @Order(1)
     @CsvFileSource(resources = "/csv/userMassa.csv", numLinesToSkip = 1, delimiter = ',')
@@ -93,4 +99,28 @@ public class TestUser {
         token = resposta.jsonPath().getString("message").substring(23);
         System.out.println("Conteudo do Token: " + token);
     }
+
+    @Test @Order(3)
+    public void testUpdateUser() throws IOException {
+        String username = "dummie";
+        int userId = 4;
+        String jsonBody = lerArquivoJson("src/test/resources/json/updateUser3.json");
+
+        given()
+            .contentType(ct)
+            .log().all()
+            .body(jsonBody)
+        .when()
+            .put(uriUser + "/" + username)
+        .then()
+            .log().all()
+            .statusCode(200)
+            .body("code", is(200))
+            .body("type", is("unknown"))
+            .body("message", is(String.valueOf(userId)))
+        ;
+    }
+
+    @Test @Order(4)
+    
 }
